@@ -1,0 +1,11 @@
+effect_id,name,type,components,"Effect? (this cell is placeholder, maybe even just for human readable notes on what it does)"
+slow,Slow,primitive,,apply the slow condition
+wait,Wait,primitive,,delays everything after it in the effect list
+enfeeble,Enfeeble,primitive,,apply the enfeeble condition (not set yet. probably reduce damage to a minimum of 1)
+heal,Heal,primitive,,heal the target for some value
+milk,Milk,composite,,remove all basic? Negative status conditions. This will likely be a set list with ‘most’ conditions on it to leave a few that are supposed to be extra dangerous/lenghty 
+basic,Basic,primitive,,deal basic effort. This will refrence the characters effort to get their bonus
+tool,Tool,primitive,,deal tool effort. This will refrence the characters effort to get their bonus
+weapon,Weapon,primitive,,deal weapon effort. This will refrence the characters effort to get their bonus
+magic,Magic,primitive,,deal magic effort. This will refrence the characters effort to get their bonus
+ultimate,Ultimate,primitive,,deal ultimate effort. This will refrence the characters effort to get their bonus
