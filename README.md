@@ -335,3 +335,395 @@ Before building the full Tower or a large town, the first playable prototype sho
 The first prototype should prove that prepare → enter Tower → explore → encounter → collect cards → manage exhaustion → return → recover is fun and technically workable. Content quantity comes later.
 19. Scope Boundary
 Do not attempt to build the entire Tower, every NPC, or the full town before the vertical slice works. The project should preserve modularity so combat and other uncertain systems can be iterated independently.
+
+Data Architecture & Card Schema
+Core Philosophy
+
+Cards are not written as prose that a human GM interprets. They are structured data that the game engine must be able to parse into concrete, deterministic actions.
+
+Player-facing flavor text may describe what a card does, but flavor text is not mechanically authoritative and is not parsed to determine card behavior.
+
+Mechanical behavior is defined by structured fields and references to other data definitions.
+
+When a mechanic can be represented as a reusable definition, it should generally be defined once and referenced rather than duplicated across cards.
+
+Card Data Organization
+
+Card data may be divided into multiple human-readable spreadsheets by card type.
+
+The final game data may combine these definitions or keep them as separate JSON files; this is an implementation decision and does not change the underlying schema.
+
+Every card has a card_id that uniquely identifies it across all card-type sheets.
+
+The card name may be duplicated in type-specific sheets for human readability. The name in those sheets is not used as the mechanical identifier; card_id is.
+
+Universal card information belongs in the master card sheet. Type-specific mechanical information belongs in the appropriate type-specific sheet.
+
+Examples of universal information include:
+
+card_id
+name
+type
+rarity
+cost
+consumable
+player-facing flavor_text
+
+Type-specific mechanical fields should not be placed in the master sheet merely for convenience.
+
+Naming and Data Conventions
+
+Column names use lowercase snake_case.
+
+Examples:
+
+card_id
+effect_id
+max_amount
+damage_type
+
+Do not introduce spaces or capitalization into column names.
+
+Boolean values are represented as TRUE and FALSE.
+
+IDs should be stable and unique. References between data definitions use IDs rather than display names.
+
+Player-facing text may contain dynamic references using {}.
+
+Example:
+
+Create a bolt of acid that is then shot at a target within {range}.
+
+A dynamic reference in flavor text should resolve from the actual mechanical value rather than hardcoding a value into the text.
+
+Conjuration Cards
+
+A Conjuration creates an item defined by the Item data.
+
+A Conjuration is responsible for defining:
+
+which item is created
+how many are created
+the maximum amount created
+how long they exist
+where they appear
+any applicable range
+the card's cost
+
+Once created, the result is an ordinary item governed by the Item rules.
+
+Conjuration does not perform attacks or apply effects merely because the resulting item has those capabilities. Any harmful or otherwise active behavior belongs to the appropriate mechanical system.
+
+Conjuration Defaults
+
+amount:
+
+Blank → 1
+
+max_amount:
+
+Blank → same value as amount
+-1 → unlimited
+
+duration:
+
+Blank → -1
+-1 → indefinite duration
+
+range:
+
+Blank → self only
+
+If an equipable item is conjured with a range, the range may be used to target an ally, but not an enemy, unless another rule explicitly permits enemy targeting.
+
+If the relevant equipment slot is already occupied, the Conjuration fails.
+
+If there is insufficient physical space to create/place the item, the Conjuration fails.
+
+An item that has been successfully created does not retain special "conjured item" behavior; it becomes a normal item of its defined type.
+
+Tower Floor Persistence
+
+Cards are the persistent resource.
+
+The Tower clears non-card resources/inventory when changing floors. Cards themselves are the exception and persist.
+
+Therefore a card can be used to recreate equipment or other items on each floor.
+
+duration = -1 means the created item remains indefinitely under normal item rules; it does not mean the item survives a Tower floor transition.
+
+Attack Cards
+
+Attack cards define how an attack is delivered and what Effects occur when it resolves.
+
+Attack does not have a dedicated damage field.
+
+Damage is an Effect.
+
+An Attack therefore describes:
+
+target pattern
+range
+resolution method
+stat used for resolution
+resulting Effects
+Targeting
+
+Attack targets are defined by a Target reference rather than directly describing the target geometry.
+
+A target represents a pattern of squares, not necessarily a creature.
+
+This allows attacks to target empty spaces as well as occupied spaces.
+
+Examples of possible target definitions include:
+
+a single square
+a 2×2 area
+a 5×5 area
+a radius-based area
+a line
+other geometric patterns
+
+An attack does not inherently require a mob to occupy its target.
+
+An attack may therefore have an effect that produces something in an otherwise empty target square.
+
+The Target system is separate from the Attack system and should be reusable by other mechanics where appropriate.
+
+range is expressed in combat squares, not feet.
+
+The game convention is that one combat square represents 3×3 feet. Player-facing rules may explain this conversion, but mechanical data uses squares.
+
+Attack Resolution
+
+Attack resolution is divided into two fields:
+
+resolution
+
+Allowed values currently include:
+
+attack
+save
+auto
+stat
+
+If resolution is attack or save, stat specifies which stat or stats are used.
+
+If resolution is auto, stat is blank.
+
+A single stat means that stat is used.
+
+Multiple stats separated by / mean that the highest applicable stat is used.
+
+Examples:
+
+dex → use DEX
+mnd/dex → use the higher of MND or DEX
+str/con/dex → use the highest of STR, CON, or DEX
+
+This syntax is intentionally simple and is not an arbitrary expression language.
+
+For an attack, the selected stat is the attacker's stat used for the attack.
+
+For a save, the selected stat is the target's stat used for the save.
+
+auto resolves automatically without a roll.
+
+Effects
+
+Effects are reusable mechanical operations.
+
+Every Effect is an Effect regardless of whether it is primitive or composite.
+
+There is no separate conceptual category for "composite effects." A composite Effect is simply an Effect whose behavior is defined in terms of other Effects.
+
+Effects may be referenced by:
+
+cards
+other Effects
+items
+attacks
+other systems that need to produce a mechanical result
+
+This allows the same mechanical operation to be reused throughout the game.
+
+Effect IDs Represent Operations, Not Configurations
+
+Effect IDs identify an operation, not every possible configuration of that operation.
+
+For example:
+
+burning
+
+is an Effect.
+
+These are parameters:
+
+1
+2
+3
+
+Therefore the game should not require separate Effects such as:
+
+burning_1
+burning_2
+burning_3
+
+Instead:
+
+burning 1
+
+means the burning Effect with parameter 1.
+
+Similarly:
+
+basic acid
+
+means the basic Effect with acid as its damage type.
+
+basic fire
+
+means the same basic Effect with fire as its damage type.
+
+The parameters belong to the invocation of the Effect rather than being encoded into the Effect ID.
+
+Effect Syntax
+
+An Effect field contains one or more sequential Effect invocations.
+
+/ separates individual Effect invocations.
+
+Spaces separate an Effect ID from its parameters.
+
+Example:
+
+slow 1 / fire_damage 1
+
+means:
+
+Execute slow with parameter 1.
+Execute fire_damage with parameter 1.
+
+The exact number and meaning of parameters are defined by the referenced Effect.
+
+Effects are always resolved from left to right.
+
+There is no simultaneous-effect mechanic.
+
+If two Effects should not interfere with one another, their order should be deliberately chosen so that they resolve in the desired order.
+
+The order in the Effect field is mechanically significant and must be preserved by the parser and runtime.
+
+Composite Effects
+
+A composite Effect is simply an Effect whose component Effects are listed in order.
+
+For example:
+
+slow 1 / wait 1 / heal MAX / remove_debuff / milk
+
+would resolve as:
+
+Apply Slow 1.
+Wait one round.
+Heal to the specified amount.
+Remove debuffs.
+Apply the Milk effect.
+
+Composite Effects may reference other composite Effects.
+
+Effects must not be allowed to create an infinite reference cycle, either directly or indirectly.
+
+For example:
+
+A → B → C → A
+
+is invalid.
+
+Damage
+
+Damage is an Effect rather than a dedicated Attack field.
+
+Effort-based damage uses the appropriate effort definition plus a damage type.
+
+For example:
+
+basic acid
+
+means Basic Effort acid damage.
+
+The standardized effort values are defined centrally so that changing an effort value changes every mechanic using that effort consistently.
+
+Static damage may also exist as a separate damage Effect when needed, particularly for effects originating from items or other systems.
+
+For example:
+
+damage 7 acid
+
+would represent 7 static acid damage.
+
+This allows cards, items, attacks, and other mechanics to use the same underlying damage system.
+
+Flavor Text
+
+Flavor text is primarily player-facing information and is not mechanically authoritative.
+
+It may contain both:
+
+actual flavor
+concise explanations of what the card does
+
+Flavor text may reference mechanical values using {}.
+
+References should be used instead of hardcoding values that may change.
+
+For example:
+
+Shoot a bolt of acid at a target within {range}.
+
+If the card's range changes, the displayed text should automatically reflect the new value.
+
+Dynamic references may also expose information about referenced Effects, Items, or other definitions when the UI supports it.
+
+For example, {fire_damage} may display the Effect's name and/or flavor explanation when hovered.
+
+Design Principle: Prefer Composition Over Duplication
+
+When a new card needs a variation of an existing mechanic, prefer changing parameters or composing existing Effects rather than creating a new hardcoded Effect or special-case Attack rule.
+
+For example:
+
+basic fire / burning 1
+
+is preferable to creating a separate fire_damage_burning_1 Effect.
+
+Similarly, an Attack should reference Effects rather than having special fields for every possible consequence of an attack.
+
+The goal is for the data to describe combinations of well-defined mechanical primitives rather than requiring a unique implementation for every card.
+
+Current Architectural Relationship
+
+The current conceptual structure is:
+
+Card
+→ references a card type's mechanical definition
+
+Attack
+→ references Target + Effects
+
+Conjuration
+→ references Item
+
+Effect
+→ may execute directly or reference other Effects
+
+Item
+→ defines the rules of an item
+
+Target
+→ defines a geometric targeting pattern
+
+Stat / Effort definitions
+→ provide standardized reusable values
+
+This architecture is intentionally modular. New card mechanics should generally reuse existing definitions before introducing new special-case fields or systems.
