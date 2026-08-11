@@ -505,7 +505,6 @@ Allowed values currently include:
 attack
 save
 auto
-stat
 
 If resolution is attack or save, stat specifies which stat or stats are used.
 
