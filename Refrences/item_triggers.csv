@@ -1,0 +1,9 @@
+item_id,trigger,condition,effect
+bark_shield_1,on_equipped,,defense_mod {this.card_level}
+bark_shield_1,on_dropped,,temp_hp {this.card_level}
+leaf_cloak_1,on_equipped,in:forest,skill_up stealth
+timber_axe_1,on_attack:target,,weapon
+timber_axe_1,on_attack:target,has_tag:wood,weapon
+thorn_boots_1,on_equipped,,
+mossy_chest_1,,,
+thorn_ring_1,,,

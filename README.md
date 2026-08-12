@@ -909,8 +909,17 @@ The current system is an ICRPG-inspired baseline and may be replaced without for
 
 ## Difficulty
 
-* Easy = -3.
-* Hard = +3.
+Difficulty is a sliding scale. Effects, conditions, and event chains may move the current difficulty up or down the scale. The final position on the scale determines how the relevant roll is resolved.
+
+* **Auto** = automatically produces the maximum possible result of the roll, without adding any bonus beyond the normal roll.
+* **Easy_Advantage** = roll twice at Easy difficulty (-3) and take the better result.
+* **Advantage** = roll twice and take the better result.
+* **Easy** = -3 to the roll.
+* **Default** = no modifier.
+* **Hard** = +3 to the roll.
+* **Disadvantage** = roll twice and take the worse result.
+* **Hard_Disadvantage** = roll twice at Hard difficulty (+3) and take the worse result.
+* **Auto_Fail** = automatically produces the minimum possible result of the roll, without adding any penalty beyond the normal roll.
 
 ## Criticals
 

@@ -1,0 +1,7 @@
+Trigger NameParamDescription
+on_attackSelf / targetself means the character wearing the item is being attacked, target means that this item is attacking someone else
+on_turn_startthis happens right after the ‘enemy’ gets its turn
+on_equippedwhen the item gets equipped. This should mostly be for permenant buffs
+on_placementwhen the item gets deployed??? might make this on_dropped 
+on_enter_spacethis will get called whenever a character moves… feels clunky, think more about it
+on_droppedthe item itself gets dropped from the inventory
