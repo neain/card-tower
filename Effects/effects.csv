@@ -1,15 +1,22 @@
-effect_id,name,type,components,Custom sort colum (another notes only),Example (another notes column),Param (another placehold/only for notes),"Effect? (this cell is placeholder, maybe even just for human readable notes on what it does)"
+effect_id,name,type,components,Custom sort colum (another notes only),Example (human readable),Param (human readable),Effect? (human readable)
 basic,Basic,primitive,,1,,,deal basic effort. This will refrence the characters effort to get their bonus
 tool,Tool,primitive,,2,,,deal tool effort. This will refrence the characters effort to get their bonus
 weapon,Weapon,primitive,,3,,,deal weapon effort. This will refrence the characters effort to get their bonus
 magic,Magic,primitive,,4,,,deal magic effort. This will refrence the characters effort to get their bonus
 ultimate,Ultimate,primitive,,5,,,deal ultimate effort. This will refrence the characters effort to get their bonus
 clear_condition,Clear Condition,primitive,,,clear_debuff slow 5,Debuff / amount to be removed,reduces the amuont of a specific debuff
-defense_mod,Defense,primitive,,,,defense added… or removed.,set defense += to the param passed in. max of +10 (tentative)
+defense_mod,Defense,composite,stat_mod def X,,defense_mod 2,defense added… or removed.,replaces X with the passed in amount
 temp_hp,DR,primitive,,,,temp hp / duration before they are removed,gain a number of temp hp. After the duration remove any remaining temp hp.
 enfeeble,Enfeeble,primitive,,,,Duration / amount reduced,apply the enfeeble condition (not set yet. probably reduce damage to a minimum of 1)
-heal,Heal,primitive,,,,heal amount,heal the target for some value
+heal,Heal,composite,stat_mod current_hp X,,Heal 1 / heal basic,amount – can be a static number or enum,replaces X with the passed in amount
 milk,Milk,composite,,,,optional: how many of each debuff gets cleared. If blank will default to -1 to clear all,remove all basic? Negative status conditions. This will likely be a set list with ‘most’ conditions on it to leave a few that are supposed to be extra dangerous/lenghty 
-skill_up,Skill Up,primitive,,,,,
+skill_mod,Skill,primitive,,,,required: skill name / how much up or down the scale it moves. ,
 slow,Slow,primitive,,,,slow duration,apply the slow condition
 wait,Wait,primitive,,,,how long to wait until the effect happens,delays everything after it in the effect list
+add_ability,Add Ability,primitive,,,add_ability 1 attack 4,Energy cost / bounded list,bounded list of abilities that can be added. Additional file that extends add_ability with its own seperate list of params
+ignore_terrain_slowdown,Ignore Terrain Slowdown,primitive,,,ignore_terrain_slowdown forest,what type of terrain should be ignored.,not limited to the overall terrain. probably just checks the tags on the square and the overall map. So it could also check for rock and only rocks get ignored. This will not allow the character to bypass impassable terrain.
+trigger_card,Use Card,primitive,,,trigger_card ATT_01,card ID,uses the card once per square targeted with the target being that square.
+stat_mod,Stat Mod,primitive,,,stat_mod dex 1 / stat_mod coin -2,Stat / amount,raise or lower a specific stat. This is not meant to be a status effect but for effects that permanently change the ‘stat’ while worn. This is not actually limited to just the stats. It is a bound list.
+destroy_item,Destroy Item,primitive,,,destroy_item this,the item to be destroyed,"destroyed the selected item. The first need for this was an item destroying itself, but is meant to be expanded as needed."
+coin_mod,Coin,composite,stat_mod coin X,,coin_mod basic 1,amount – can be a static number or enum / optional: static value,replaces X with the passed in amount
+harm,Harm,composite,stat_mod current_hp X,,Harm 2 / harm tool,amount – can be a static number or enum / optional: static value,replaces X with the passed in amount and then reduce the current hp by that amount

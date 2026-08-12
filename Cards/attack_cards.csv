@@ -2,6 +2,7 @@ card_id ,name ,target ,range ,resolution ,stat,effect,Notes
 ATT_01,Enchanted Sap,square_0,10,attack,mnd/cha,wait 1 / slow 1 / enfeeble 1 / heal MAX / milk,Conjure some sap over a target. The targets movement is cut in half and their max damage is reduced to 1 for a round. Heal them to full and remove all monster/card inflicted debuffs at the end of their next turn.
 ATT_02,Acid Body,square_0,10,attack,mnd/dex,basic_acid,
 ATT_03,Air Body,square_0,10,attack,dex/cha,weapon_physical,
+SYS_ATT_01,Summon Thorn Patches,Square 1,5,auto,,trigger_card SYS_CONJ_01,this should summon up to 9 seperate instances 
 ATT_04,,,,,,,
 ATT_05,,,,,,,
 ATT_06,,,,,,,

@@ -1,0 +1,4 @@
+ability_name,param,effect (human readable)
+attack,stat / optional:range,"make an attack with the stat listed within the range listed. If blank the range is melee only, if -1 the range is infinite (any target on the battlemap)"
+use_card,card name,go to the card list and act as if using a specific card even if the player has never encountered that card. Intent is to have cards specificly for this so that they feel more like effect abilities than just… having access to another card
+activate,,this might just be a different thought of use_card. Try and use_card before fully defining this

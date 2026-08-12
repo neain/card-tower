@@ -529,6 +529,15 @@ on_enter_space
 
 A single item may have any number of trigger/effect relationships.
 
+## Ability Refresh
+
+Abilities are rebuilt at the start of combat and at the start of each turn.
+Equipment, statuses, and other current-state effects determine which abilities are available when the ability list is rebuilt.
+Changes made during a turn do not alter that turn's existing abilities. An ability gained or lost through such a change becomes available or unavailable at the next ability refresh.
+Character stat modifiers and other effects caused by equipment changes take effect immediately and are not delayed until the next ability refresh.
+
+For example, if a character begins a turn with a bow, their Bow Attack is available. If they equip a sword during that turn, the Sword's stat modifiers apply immediately, but the Bow Attack remains available until the next refresh. The next turn's ability list will reflect the sword instead.
+
 ## Condition Checks
 
 A Condition Check determines whether the effect should execute when its Trigger fires.
@@ -545,6 +554,8 @@ target:undead
 ```
 
 Condition Checks are distinct from persistent status effects.
+
+
 
 ### Boolean Conditions
 Conditions use a small expression syntax similar to Java/JavaScript.
@@ -1047,17 +1058,13 @@ The current working card data includes fields such as:
 * Notes
 
 The exact CSV schema may continue to evolve.
-
 The spreadsheet is a human-editable master source during development rather than a final implementation contract.
-
 A conversion/export step can later produce the machine-readable card data consumed by the game.
-
 Cards that represent conjured equipment may reference Items.
-
+Every object created through a conjuration effect records the source invocation that created it.
+Objects created by conjuration record the specific invocation that created them, allowing the creating effect/card to identify and manage its own summoned objects.
 Cards that perform actions may reference Effects.
-
 Items may independently reference Effects through their Trigger/Condition/Effect relationships.
-
 This means a card does not need to contain the complete implementation of every item or effect it creates.
 
 ---
