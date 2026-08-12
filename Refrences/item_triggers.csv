@@ -1,9 +1,23 @@
-item_id,trigger,condition,effect
-bark_shield_1,on_equipped,,defense_mod {this.card_level}
-bark_shield_1,on_dropped,,temp_hp {this.card_level}
-leaf_cloak_1,on_equipped,in:forest,skill_up stealth
-timber_axe_1,on_attack:target,,weapon
-timber_axe_1,on_attack:target,has_tag:wood,weapon
-thorn_boots_1,on_equipped,,
-mossy_chest_1,,,
-thorn_ring_1,,,
+item_id,trigger,condition,effect,Notes (Human readable)
+bark_shield_1,on_equip,,defense_mod 1,
+bark_shield_1,on_unequip,,defense_mod -1,
+bark_shield_1,on_dropped,,temp_hp {this.card_level},
+leaf_cloak_1,,in:forest,skill_mod stealth 1,
+timber_axe_1,on_attack:target,,weapon,
+timber_axe_1,on_attack:target,has_tag:wood,weapon,
+thorn_boots_1,,in:forest,ignore_terrain_slowdown forest,
+thorn_boots_1,on_turn_start,,add_ability 1 use_card SYS_ATT_01,
+thorn_boots_1,on_combat_start,,add_ability 1 use_card SYS_ATT_01,
+mossy_chest_1,on_turn_end,hp_g:0,heal 1,
+thorn_ring_1,on_equip,,stat_mod mnd {this.card.level},this might get slightly tricky to do as its meant to raise the stat equal to the cards level (to allow for a soul bound card to keep improved the card) but that might not be easy to figure out? or might be very easy to figure out.
+thorn_ring_1,on_unequip,,stat_mod mnd -{this.card.level},
+Skull_Helm_1,on_equip,,defense_mod 1,
+Skull_Helm_1,on_unequip,,defense_mod -1,
+Sneaky_Dagger_1,on_attack:target,,harm basic,
+Sneaky_Dagger_1,on_attack:target,flanking:target,harm ultimate,
+Goblin_Belt_1,on_turn_start,,add_ability 2 use_card PLACEHOLDER,
+Goblin_Belt_1,on_combat_start,,add_ability 2 use_card PLACEHOLDER,
+Patchwork_Armor_1,on_equip,,defense_mod 2,
+Patchwork_Armor_1,on_unequip,,defense_mod -2,
+Goblin_Trap_1,on_enter_space,,harm basic,
+Goblin_Trap_1,on_enter_space,,harm weapon,

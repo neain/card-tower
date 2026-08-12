@@ -1,7 +1,10 @@
-Trigger NameParamDescription
+Trigger NameParamParam 2?DescriptionThoughts
 on_attackSelf / targetself means the character wearing the item is being attacked, target means that this item is attacking someone else
 on_turn_startthis happens right after the ‘enemy’ gets its turn
 on_equippedwhen the item gets equipped. This should mostly be for permenant buffs
 on_placementwhen the item gets deployed??? might make this on_dropped 
-on_enter_spacethis will get called whenever a character moves… feels clunky, think more about it
+on_enter_spacethis will get called whenever something moves into the same space
 on_droppedthe item itself gets dropped from the inventory
+ability_usageSelf / targetself means that someone else is targeting the the person wearing the item, target means that this item is using an abilitymight need to compare this with on_attack and see if they are the same enough that on_attack can be folded into this one as an attack could be considered an ability usage?
+on_turn_endthis happens right before the ‘enemy’ gets its turn
+flankingSelf / targetif self your the one being flanked. if target then your flanking someone elseI think ill go with the easier version of just having 2 threats

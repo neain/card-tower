@@ -529,6 +529,24 @@ on_enter_space
 
 A single item may have any number of trigger/effect relationships.
 
+### Equipment Condition Evaluation
+- Only currently equipped items contribute equipment condition. 
+- At combat start and the start of each turn, the character's active equipment conditions are built/evaluated.
+- Equipment changes during a turn do not retroactively change the current turn's ability list.
+- Effects that depend on current conditions are evaluated at these refresh points.
+- Equipment that is not currently worn does not have active equipment conditions.
+If an equipment trigger is blank, the item's condition is evaluated during the normal equipment condition evaluation rather than being associated with a specific trigger. Because equipment conditions are evaluated at the start of combat and at the start of each turn, a blank trigger can be used for effects that simply depend on the item's current conditions rather than a specific event.
+
+Example: 
+
+Item: Leaf Cloak
+Trigger: [blank]
+Condition: in:forest
+Effect: temporary_skill_mod Stealth +1
+
+Meaning:
+At the start of the turn, because the Leaf Cloak is equipped, check in:forest. If true, apply the effect.
+
 ## Ability Refresh
 
 Abilities are rebuilt at the start of combat and at the start of each turn.
@@ -1075,6 +1093,7 @@ This means a card does not need to contain the complete implementation of every 
 * Let the computer handle repetitive bookkeeping; keep meaningful decisions with the player.
 * The Tower should be unpredictable between playthroughs but consistent within a single run.
 * Early favorite cards can remain relevant when permanently Soul-bound because they level with the Soul Card.
+* Soul Card upgrades replace the card instance incorporated into the Soul Card. They do not modify the underlying card definition or other references to that card. A trigger_card reference continues to execute the referenced card definition independently of whether the player possesses a Soul-upgraded version of that card.
 * Rarity should not be treated as a simple power ladder.
 * Named NPCs should feel like people, not interchangeable stat blocks.
 * Irreversible relationship choices should be explicitly warned about.

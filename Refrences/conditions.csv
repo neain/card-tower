@@ -1,2 +1,4 @@
 Trigger NameParamDescription
 interrain typewill check the tags of the terrain that the character is currently in
+hp_gtarget amounthp is greater than the target amount
+hp_ltarget amounthp is lesser than the target amount

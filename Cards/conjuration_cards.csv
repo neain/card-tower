@@ -15,7 +15,7 @@ CONJ_13,Boss Goblin Tooth,boss_goblin_tooth_1,,,,range,5
 CONJ_14,Boss Goblin Bone,boss_goblin_bone_1,,,,range,5
 CONJ_15,Boss Goblin Core,boss_goblin_core_1,,,,range,5
 CONJ_16,Boss Goblin Blood,boss_goblin_blood_1,,,,range,5
-CONJ_17,Coin Pouch,coin_pouch_1,,,,range,5
+CONJ_17,,,,,,,
 CONJ_18,Skull Helm,Skull_Helm_1,,,,equipment,1
 CONJ_19,Sneaky Dagger,Sneaky_Dagger_1,,,,equipment,1
 CONJ_20,Goblin Belt,Goblin_Belt_1,,,,equipment,1
@@ -25,5 +25,4 @@ CONJ_23,Boss Goblin Brew,Boss_Goblin_Brew_1,,,,equipment,1
 CONJ_24,Boss Goblin Elixir,Boss_Goblin_Elixir_1,,,,equipment,1
 CONJ_25,Boss Goblin Bow,Boss_Goblin_Bow_1,,,,equipment,1
 CONJ_26,Boss Totem,Boss_Totem_1,,,,range,5
-CONJ_27,,,,,,,
-CONJ_28,,,,,,,
+SYS_CONJ_01,Thorn Patch,thorn_patch_1,,-1,,range,5

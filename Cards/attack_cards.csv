@@ -1,10 +1,10 @@
-card_id ,name ,target ,range ,resolution ,stat,effect,Notes
+card_id ,name ,target ,range ,resolution ,stat,effect,Notes (human readable)
 ATT_01,Enchanted Sap,square_0,10,attack,mnd/cha,wait 1 / slow 1 / enfeeble 1 / heal MAX / milk,Conjure some sap over a target. The targets movement is cut in half and their max damage is reduced to 1 for a round. Heal them to full and remove all monster/card inflicted debuffs at the end of their next turn.
 ATT_02,Acid Body,square_0,10,attack,mnd/dex,basic_acid,
 ATT_03,Air Body,square_0,10,attack,dex/cha,weapon_physical,
-SYS_ATT_01,Summon Thorn Patches,Square 1,5,auto,,trigger_card SYS_CONJ_01,this should summon up to 9 seperate instances 
-ATT_04,,,,,,,
-ATT_05,,,,,,,
+SYS_ATT_01,Summon Thorn Patches,square 1,5,auto,,trigger_card SYS_CONJ_01,this should summon up to 9 seperate instances. When this card triggers it should also remove the previous instances. This likely needs a new effect that gets passed the items to kill.
+ATT_04,Coin Pouch,square 0,0,auto,,coin_mod ultimate,"flavor text should not mention that its using their ultimate effort to gain coins, and the card should sell for ~6 coin all on its own"
+ATT_05,Goblin Belt,,,,,,
 ATT_06,,,,,,,
 ATT_07,,,,,,,
 ATT_08,,,,,,,
@@ -15,3 +15,14 @@ ATT_12,,,,,,,
 ATT_13,,,,,,,
 ATT_14,,,,,,,
 ATT_15,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,5
